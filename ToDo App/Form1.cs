@@ -19,21 +19,25 @@ namespace ToDo_App
 
         private void addTaskButton_Click(object sender, EventArgs e)
         {
-            // If input is empty, do nothing.
-            if (textBox1.Text == "") { return; }
+            // If input field is empty, do nothing.
+            if (String.IsNullOrWhiteSpace(textBoxAddTask.Text))
+            {
+                errorMessageAddTask.Visible = true;
+                errorMessageAddTask.Text = "Couldn't add task, field is empty.";
+            }
 
-            // Add task to label1, if not occupied.
+            // Add task to task1, if not occupied.
             else if (!task1.Visible)
             {
                 checkBox1.Visible = true;
                 task1.Visible = true;
                 editTask1.Visible = true;
                 removeTask1.Visible = true;
+                errorMessageAddTask.Visible = false;
+                task1.Text = textBoxAddTask.Text;
 
-                task1.Text = textBox1.Text;
-
-                // Clear the input
-                textBox1.Text = "";
+                // Clear input field.
+                textBoxAddTask.Text = "";
             }
             else if (!task2.Visible)
             {
@@ -41,10 +45,10 @@ namespace ToDo_App
                 task2.Visible = true;
                 editTask2.Visible = true;
                 removeTask2.Visible = true;
-
-                task2.Text = textBox1.Text;
+                errorMessageAddTask.Visible = false;
+                task2.Text = textBoxAddTask.Text;
      
-                textBox1.Text = "";
+                textBoxAddTask.Text = "";
             }
             else if (!task3.Visible)
             {
@@ -52,14 +56,16 @@ namespace ToDo_App
                 task3.Visible = true;
                 editTask3.Visible = true;
                 removeTask3.Visible = true;
+                errorMessageAddTask.Visible = false;
+                task3.Text = textBoxAddTask.Text;
 
-                task3.Text = textBox1.Text;
-
-                textBox1.Text = "";
+                textBoxAddTask.Text = "";
             }
             else
             {
-
+                // Error message if you try to add a task when the list is full.
+                errorMessageAddTask.Visible = true;
+                errorMessageAddTask.Text = "Couldn't add task, To Do List is full.";
             }
         }
 
@@ -67,10 +73,12 @@ namespace ToDo_App
         {
             if (checkBox1.Checked)
             {
+                // Add strikethrough to task1 text.
                 task1.Font = new Font(FontFamily.GenericSansSerif, 12.00F, FontStyle.Strikeout);
             }
             else
             {
+                // Remove strikethrough from task1 text.
                 task1.Font = new Font(FontFamily.GenericSansSerif, 12.00F, FontStyle.Regular);
             }
         }
@@ -101,7 +109,7 @@ namespace ToDo_App
 
         private void removeTask1_Click(object sender, EventArgs e)
         {
-            // Remove task1
+            // Remove task1.
             checkBox1.Visible = false;
             checkBox1.Checked = false;
             task1.Visible = false;
@@ -109,6 +117,7 @@ namespace ToDo_App
             editTask1.Visible = false;
             textBoxTask1.Visible = false;
             confirmButtonTask1.Visible = false;
+            errorMessageTask1.Visible = false;
         }
 
         private void removeTask2_Click(object sender, EventArgs e)
@@ -120,6 +129,7 @@ namespace ToDo_App
             editTask2.Visible = false;
             textBoxTask2.Visible = false;
             confirmButtonTask2.Visible = false;
+            errorMessageTask2.Visible = false;
         }
 
         private void removeTask3_Click(object sender, EventArgs e)
@@ -131,11 +141,12 @@ namespace ToDo_App
             editTask3.Visible = false;
             textBoxTask3.Visible = false;
             confirmButtonTask3.Visible = false;
+            errorMessageTask3.Visible = false;
         }
 
         private void editTask1_Click(object sender, EventArgs e)
         {
-            // Edit task1
+            // Edit task1.
             editTask1.Visible = false;
             textBoxTask1.Visible = true;
             textBoxTask1.Text = task1.Text;
@@ -160,27 +171,51 @@ namespace ToDo_App
 
         private void confirmButtonTask1_Click(object sender, EventArgs e)
         {
-            // Confirm new input task1
-            task1.Text = textBoxTask1.Text;
-            textBoxTask1.Visible = false;
-            confirmButtonTask1.Visible = false;
-            editTask1.Visible = true;
+            if (String.IsNullOrWhiteSpace(textBoxTask1.Text))
+            {
+                errorMessageTask1.Visible = true;
+            }
+            else
+            {
+                // Confirm input and update task1.
+                task1.Text = textBoxTask1.Text;
+                textBoxTask1.Visible = false;
+                confirmButtonTask1.Visible = false;
+                errorMessageTask1.Visible = false;
+                editTask1.Visible = true;
+            }
         }
 
         private void confirmButtonTask2_Click(object sender, EventArgs e)
         {
-            task2.Text = textBoxTask2.Text;
-            textBoxTask2.Visible = false;
-            confirmButtonTask2.Visible = false;
-            editTask2.Visible = true;
+            if (String.IsNullOrWhiteSpace(textBoxTask2.Text))
+            {
+                errorMessageTask2.Visible = true;
+            }
+            else
+            {
+                task2.Text = textBoxTask2.Text;
+                textBoxTask2.Visible = false;
+                confirmButtonTask2.Visible = false;
+                errorMessageTask2.Visible = false;
+                editTask2.Visible = true;
+            }
         }
 
         private void confirmButtonTask3_Click(object sender, EventArgs e)
         {
-            task3.Text = textBoxTask3.Text;
-            textBoxTask3.Visible = false;
-            confirmButtonTask3.Visible = false;
-            editTask3.Visible = true;
+            if (String.IsNullOrWhiteSpace(textBoxTask3.Text))
+            {
+                errorMessageTask3.Visible = true;
+            }
+            else
+            {
+                task3.Text = textBoxTask3.Text;
+                textBoxTask3.Visible = false;
+                confirmButtonTask3.Visible = false;
+                errorMessageTask3.Visible = false;
+                editTask3.Visible = true;
+            }
         }
     }
 }
